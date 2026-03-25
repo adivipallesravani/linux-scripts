@@ -1,14 +1,19 @@
 #!/bin/bash
-if [ -e /etc/shadow ]
+ 
+FILE="/etc/shadow"
+
+if [ ! -e "$FILE" ]
 then
-	echo "shadow passwords are enabled"
+	echo "$FILE doesnt exist"
+        exit 1
+fi
 
+echo "$FILE exists"
 
-if [ -w /etc/shadow ]
+if [ -w "$FILE" ]
 then
  
 	echo "u have permissions to edit /etc/shadow"
-else 
+else
 	echo "dont have perm"
-fi
 fi
