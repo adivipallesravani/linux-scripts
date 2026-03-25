@@ -3,11 +3,12 @@
 if [ $# -eq 0 ]
 then
 	echo "please pass atleast an argument"
+        exit 1
 fi
 for FILE in "$@";do
-if [ -e $FILE ]
+if [ -e "$FILE" ]
 then
-	if [ -f $FILE ]
+	if [ -f "$FILE" ]
 	then 
 		echo " $FILE is regular file"
 	elif [ -d $FILE ]
@@ -19,7 +20,7 @@ then
 		echo
 
 	echo "long listing"
-	ls -l $FILE
+	ls -l "$FILE" 2>/dev/null || echo "permission denied"
 
 else
 	echo "$FILE doesnt exist"
