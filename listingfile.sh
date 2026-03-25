@@ -1,11 +1,11 @@
 #!/bin/bash
 read -p "enter filename: " FILE
-if [ -e $FILE ]
+if [ -e "$FILE" ]
 then
-	if [ -f $FILE ]
+	if [ -f "$FILE" ]
 	then 
-		echo " $FILE is regular file"
-	elif [ -d $FILE ]
+		echo " "$FILE" is regular file"
+	elif [ -d "$FILE" ]
 	then 
 		echo "$FILE is directory file"
 	else
@@ -13,7 +13,7 @@ then
 	fi
 	echo
 	echo "long listing"
-	ls -ld $FILE
+	ls -ld "$FILE"
 
 else
 	echo "$FILE doesnt exist"
