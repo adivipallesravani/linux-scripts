@@ -1,16 +1,54 @@
 #!/bin/bash
 
+# Script: sleepwalkingserver.sh
+# Description: Start/Stop a background process using PID file
+# Usage: ./sleepwalkingserver.sh start | stop
+
+PID_FILE="/tmp/sleepwalkingserver.pid"
+SERVER="/tmp/sleepwalkingserver"
+
 case $1 in
-	start)
-		/tmp/sleepwalkingserver &
-		;;
-	stop)
-		kill $(cat /tmp/sleepwalkingserver.pid)
-		;;
-        *)
-		echo "usage sleepwalkingserver start|stop"
-		exit 1
-		;;
+
+    start)
+        # Check if already running
+        if [ -f "$PID_FILE" ]; then
+            echo "Server already running with PID $(cat $PID_FILE)"
+            exit 1
+        fi
+
+        echo "Starting server..."
+
+        # Start server in background
+        $SERVER &
+
+        # Store PID of background process
+        echo $! > "$PID_FILE"
+
+        echo "Server started with PID $(cat $PID_FILE)"
+        ;;
+
+    stop)
+        # Check if PID file exists
+        if [ ! -f "$PID_FILE" ]; then
+            echo "Server not running"
+            exit 1
+        fi
+
+        echo "Stopping server..."
+
+        # Kill process
+        kill $(cat "$PID_FILE")
+
+        # Remove PID file
+        rm -f "$PID_FILE"
+
+        echo "Server stopped"
+        ;;
+
+    *)
+        echo "Usage: $0 start | stop"
+        exit 1
+        ;;
 esac
 
 exit 0
